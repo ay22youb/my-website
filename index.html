@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actor Movie Search</title>
+    <style>
+        /* Add your CSS styles /* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Main section styles */
+main {
+    width: 90%;
+    max-width: 800px;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header styles */
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Form and input styles */
+section {
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+input[type="text"]:focus {
+    border-color: #333;
+}
+
+button {
+    display: block;
+    margin-top: 1rem;
+    padding: 0.7rem 1rem;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+/* Movie list styles */
+#movieList {
+    margin-top: 2rem;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 1rem;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    font-size: 18px;
+    margin-bottom: 0.5rem;
+}
+here */
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Actor Movie Search</h1>
+    </header>
+    <main>
+        <section>
+            <label for="actorName">Enter Actor's Name:</label>
+            <input type="text" id="actorName" placeholder="e.g., Leonardo DiCaprio">
+            <button id="searchButton">Search</button>
+        </section>
+        <section id="movieList">
+            <h2>Movies:</h2>
+            <ul id="movies"></ul>
+        </section>
+    </main>
+    <script>
+        const moviesData = [
+        { actor: "Brad Pitt", movie: "Legends of the Fall" },
+    { actor: "Brad Pitt", movie: "Seven" },
+    { actor: "Brad Pitt", movie: "Fight Club" },
+    { actor: "Brad Pitt", movie: "Ocean's Twelve" },
+    { actor: "Brad Pitt", movie: "Moneyball" },
+    { actor: "Brad Pitt", movie: "Troy" },
+    { actor: "Brad Pitt", movie: "The Big Short" },
+    { actor: "Brad Pitt", movie: "World War Z" },
+    { actor: "Brad Pitt", movie: "Once Upon a Time in Hollywood" },
+    { actor: "Brad Pitt", movie: "Ad Astra" },
+    { actor: "Brad Pitt", movie: "fight club" },
+    { actor: "Leonardo DiCaprio", movie: "Inception" },
+    { actor: "Leonardo DiCaprio", movie: "Titanic" },
+    { actor: "Leonardo DiCaprio", movie: "The Revenant" },
+    { actor: "Tom Hanks", movie: "Forrest Gump" },
+    { actor: "Tom Hanks", movie: "Cast Away" },
+    { actor: "Tom Hanks", movie: "Saving Private Ryan" },
+    { actor: "Tom Hanks", movie: "Apollo 13" },
+    { actor: "Tom Hanks", movie: "Toy Story" },
+    { actor: "Tom Hanks", movie: "The Green Mile" },
+    { actor: "Tom Hanks", movie: "Catch Me If You Can" },
+    { actor: "Brad Pitt", movie: "Ocean's Eleven" },
+    { actor: "Brad Pitt", movie: "Inglourious Basterds" },
+    { actor: "Brad Pitt", movie: "Mr. & Mrs. Smith" },
+    { actor: "Brad Pitt", movie: "The Curious Case of Benjamin Button" },
+    { actor: "Leonardo DiCaprio", movie: "The Wolf of Wall Street" },
+    { actor: "Leonardo DiCaprio", movie: "Catch Me If You Can" },
+    { actor: "Leonardo DiCaprio", movie: "Shutter Island" },
+    { actor: "Leonardo DiCaprio", movie: "Django Unchained" },
+    { actor: "Leonardo DiCaprio", movie: "The Great Gatsby" },
+    { actor: "Matthew McConaughey", movie: "Interstellar" },
+    { actor: "Matthew McConaughey", movie: "Dallas Buyers Club" },
+    { actor: "Christian Bale", movie: "The Dark Knight" },
+    { actor: "Christian Bale", movie: "American Psycho" },
+    { actor: "Christian Bale", movie: "The Prestige" },
+    { actor: "Christian Bale", movie: "Batman Begins" },
+    { actor: "Christian Bale", movie: "Vice" },
+    { actor: "Christian Bale", movie: "American Hustle" },
+    { actor: "Christian Bale", movie: "Ford v Ferrari" },
+    { actor: "Jake Gyllenhaal", movie: "Prisoners" },
+    { actor: "Jake Gyllenhaal", movie: "Zodiac" },
+        ];
+
+        const searchButton = document.getElementById("searchButton");
+        const actorNameInput = document.getElementById("actorName");
+        const moviesList = document.getElementById("movies");
+
+        searchButton.addEventListener("click", () => {
+            const actorName = actorNameInput.value;
+            const actorMovies = moviesData.filter(data => data.actor.toLowerCase() === actorName.toLowerCase()).map(data => data.movie);
+            displayMovies(actorMovies);
+        });
+
+        function displayMovies(movies) {
+            moviesList.innerHTML = "";
+            if (movies.length === 0) {
+                const li = document.createElement("li");
+                li.textContent = "No movies found for this actor.";
+                moviesList.appendChild(li);
+            } else {
+                movies.forEach(movie => {
+                    const li = document.createElement("li");
+                    li.textContent = movie;
+                    moviesList.appendChild(li);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
